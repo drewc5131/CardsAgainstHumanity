@@ -128,6 +128,7 @@ public class FirstLoadHandler extends Handler {
       ret.put(AjaxResponse.PERSISTENT_ID, user.getPersistentId());
       ret.put(AjaxResponse.ID_CODE, user.getIdCode());
       ret.put(AjaxResponse.SIGIL, user.getSigil().toString());
+	  ret.put(AjaxResponse.UUID, user.getUUID());
       if (showSessionPermalink) {
         ret.put(AjaxResponse.SESSION_PERMALINK,
             String.format(sessionPermalinkFormatString, user.getSessionId()));

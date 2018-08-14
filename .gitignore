@@ -1,5 +1,9 @@
 build
-build.properties
 target
 ssl/
 src/main/java/net/socialgamer/cah/util/RealShadowBannedStringProvider.java
+.idea/
+.vs/
+src/main/java/com/adamratzman
+build.properties
+src/main/java/net/socialgamer/cah/auth/AuthSecrets.java

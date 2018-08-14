@@ -146,7 +146,9 @@ public class RegisterHandler extends Handler {
         final User user = userFactory.create(nick, mangledIdCode, request.getRemoteAddr(),
             adminList.contains(request.getRemoteAddr()), persistentId,
             request.getHeader(HttpHeaders.ACCEPT_LANGUAGE),
-            request.getHeader(HttpHeaders.USER_AGENT));
+            request.getHeader(HttpHeaders.USER_AGENT),
+			request.getParameter(AjaxRequest.DISCORD_CODE)
+			);
         user.userDidSomething();
         user.contactedServer();
         final ErrorCode errorCode = users.checkAndAdd(user);
@@ -164,6 +166,7 @@ public class RegisterHandler extends Handler {
           data.put(AjaxResponse.PERSISTENT_ID, persistentId);
           data.put(AjaxResponse.ID_CODE, user.getIdCode());
           data.put(AjaxResponse.SIGIL, user.getSigil().toString());
+		  data.put(AjaxResponse.UUID, user.getUUID());
           if (showSessionPermalink) {
             data.put(AjaxResponse.SESSION_PERMALINK,
                 String.format(sessionPermalinkFormatString, user.getSessionId()));

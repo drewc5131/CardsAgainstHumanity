@@ -26,6 +26,7 @@ package net.socialgamer.cah.data;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.PriorityBlockingQueue;
 
 import javax.annotation.Nullable;
@@ -35,11 +36,13 @@ import org.apache.log4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import bell.oauth.discord.main.OAuthBuilder;
+import bell.oauth.discord.main.Response;
 import net.sf.uadetector.ReadableUserAgent;
 import net.sf.uadetector.service.UADetectorServiceFactory;
 import net.socialgamer.cah.CahModule.UniqueId;
 import net.socialgamer.cah.Constants.Sigil;
-
+import net.socialgamer.cah.auth.AuthSecrets;
 
 /**
  * A user connected to the server.
@@ -76,7 +79,13 @@ public class User {
 
   private final String clientLanguage;
 
+  private final String discordCode;
+
+  private final String discordId;
+
   private final ReadableUserAgent agent;
+
+  private final String uuid;
 
   /**
    * Reset when this user object is no longer valid, most likely because it pinged out.
@@ -112,16 +121,38 @@ public class User {
       @Assisted("persistentId") final String persistentId,
       @UniqueId final String sessionId,
       @Nullable @Assisted("clientLanguage") final String clientLanguage,
-      @Nullable @Assisted("clientAgent") final String clientAgent) {
-    this.nickname = nickname;
+      @Nullable @Assisted("clientAgent") final String clientAgent,
+	  @Nullable @Assisted("discordCode") final String discordCode){
+
     this.idCode = idCode;
     this.hostname = hostname;
     this.isAdmin = isAdmin;
     this.persistentId = persistentId;
     this.sessionId = sessionId;
     this.clientLanguage = clientLanguage == null ? "" : clientLanguage;
+	this.discordCode = discordCode == null ? "": discordCode;
+
+    this.uuid = UUID.randomUUID().toString();
+
     agent = UADetectorServiceFactory.getResourceModuleParser().parse(clientAgent);
     queuedMessages = new PriorityBlockingQueue<QueuedMessage>();
+
+	if(discordCode!=null){
+      final OAuthBuilder oauthbldg = new OAuthBuilder(AuthSecrets.DISCORD_OAUTH_CODE,
+          AuthSecrets.DISCORD_OAUTH_TOKEN)
+              .setScopes(new String[] { "identify", "email" })
+              .setRedirectURI(AuthSecrets.DISCORD_OAUTH_TOKEN);
+
+		final Response response = oauthbldg.exchange(discordCode);
+		final bell.oauth.discord.domain.User user = oauthbldg.getUser();
+		this.nickname = user.getUsername();
+		this.discordId = user.getId();
+
+	}
+	else{
+		this.nickname = nickname;
+		this.discordId = null;
+	}
   }
 
   public interface Factory {
@@ -129,7 +160,8 @@ public class User {
         @Assisted("hostname") String hostname, boolean isAdmin,
         @Assisted("persistentId") String persistentId,
         @Nullable @Assisted("clientLanguage") String clientLanguage,
-        @Nullable @Assisted("clientAgent") String clientAgent);
+        @Nullable @Assisted("clientAgent") String clientAgent,
+		@Nullable @Assisted("discordCode") String discordCode);
   }
 
   /**
@@ -221,6 +253,12 @@ public class User {
   public String getPersistentId() {
     return persistentId;
   }
+
+  public String getUUID(){
+	return uuid;
+  }
+
+  public String getDiscordId(){return discordId;}
 
   /**
    * @return The user's nickname.

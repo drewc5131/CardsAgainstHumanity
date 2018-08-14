@@ -80,6 +80,7 @@ boolean allowBlankCards = injector.getInstance(Key.get(new TypeLiteral<Boolean>(
 <jsp:include page="analytics.jsp" />
 </head>
 <body id="gamebody">
+<h1><a href="newgame.jsp">Warning: This page is going to be replaced with a much more updated and polished version supporting multiple platforms. For now, you should click on this message to go to it.</a></h1>
 
 <div id="welcome">
   <div id="tweetbox">

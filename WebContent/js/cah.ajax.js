@@ -104,7 +104,7 @@ cah.Ajax.prototype.requestWithBuilder = function(builder) {
 cah.Ajax.prototype.error = function(jqXHR, textStatus, errorThrown) {
   // TODO deal with this somehow
   // and figure out which request it was so we can remove it from pending
-  debugger;
+  //debugger;
   cah.log.error(textStatus + " " + errorThrown);
 };
 

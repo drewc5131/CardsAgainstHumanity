@@ -36,6 +36,8 @@ var cah = {};
  */
 cah.nickname = "";
 
+cah.uuid = "";
+
 /**
  * The games this client is playing in. Key is game id.
  * 

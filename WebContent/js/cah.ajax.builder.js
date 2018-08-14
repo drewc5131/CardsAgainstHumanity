@@ -111,6 +111,12 @@ cah.ajax.Builder.prototype.withPersistentId = function(persistentId) {
   return this;
 };
 
+cah.ajax.Builder.prototype.withDiscordCode = function (discordCode) {
+    this.assertNotExecuted_();
+    this.data[cah.$.AjaxRequest.DISCORD_CODE] = discordCode;
+    return this;
+}
+
 /**
  * @param {string}
  *          message Message field to use in the request.

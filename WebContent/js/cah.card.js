@@ -86,7 +86,7 @@ cah.card.BaseCard = function(opt_faceUp, opt_id) {
    */
   this.faceUpElem_ = undefined;
 
-  this.element_ = $('<div id="card_' + this.id_ + '" class="card_holder"><br/></div>')[0];
+  this.element_ = $('<div id="card_' + this.id_ + '" class="card_holder col-md-1" style="width:100%;max-width:100%"><br/></div>')[0];
   if (this.faceUp_) {
     this.turnFaceUp();
   } else {

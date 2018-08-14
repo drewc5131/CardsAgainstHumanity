@@ -570,7 +570,7 @@ public class Game {
       return null;
     }
     info.put(GameInfo.CREATED, created);
-    info.put(GameInfo.HOST, host.getUser().getNickname());
+    info.put(GameInfo.HOST, host.getUser().getUUID());
     info.put(GameInfo.STATE, state.toString());
     info.put(GameInfo.GAME_OPTIONS, options.serialize(includePassword));
     info.put(GameInfo.HAS_PASSWORD, options.password != null && !options.password.equals(""));
@@ -680,13 +680,18 @@ public class Game {
       case ROUND_OVER:
         if (getJudge() == player) {
           playerStatus = GamePlayerStatus.JUDGE;
+          gameManager.updateStat(player.getUser().getDiscordId(), "totalmatches");
         }
         // TODO win-by-x
         else if (player.getScore() >= options.scoreGoal) {
           playerStatus = GamePlayerStatus.WINNER;
+          gameManager.updateStat(player.getUser().getDiscordId(), "totalmatchwins");
+          gameManager.updateStat(player.getUser().getDiscordId(), "totalmatches");
         } else {
+          gameManager.updateStat(player.getUser().getDiscordId(), "totalmatches");
           playerStatus = GamePlayerStatus.IDLE;
         }
+
         break;
       default:
         throw new IllegalStateException("Unknown GameState " + state.toString());
@@ -1221,6 +1226,7 @@ public class Game {
       roundPlayers.clear();
       for (final Player player : players) {
         if (player != getJudge()) {
+          gameManager.updateStat(player.getUser().getDiscordId(),"totalrounds");
           roundPlayers.add(player);
         }
       }
@@ -1530,6 +1536,7 @@ public class Game {
 
       cardPlayer.increaseScore();
       state = GameState.ROUND_OVER;
+      gameManager.updateStat(cardPlayer.getUser().getDiscordId(),"totalroundwins");
     }
     final int clientCardId = playedCards.getCards(cardPlayer).get(0).getId();
 

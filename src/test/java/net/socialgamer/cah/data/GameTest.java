@@ -93,8 +93,8 @@ public class GameTest {
     expectLastCall().once();
     replay(gmMock);
 
-    final User user1 = new User("test1", null, "test.lan", false, "1", "1", "en-US", "JUnit");
-    final User user2 = new User("test2", null, "test.lan", false, "2", "2", "en-US", "JUnit");
+    final User user1 = new User("test1", null, "test.lan", false, "1", "1", "en-US", "JUnit", null);
+    final User user2 = new User("test2", null, "test.lan", false, "2", "2", "en-US", "JUnit", null);
     game.addPlayer(user1);
     game.addPlayer(user2);
 

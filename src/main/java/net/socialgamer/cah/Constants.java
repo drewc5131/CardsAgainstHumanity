@@ -222,6 +222,7 @@ public class Constants {
     OP("o"),
     PASSWORD("pw"),
     PERSISTENT_ID("pid"),
+    DISCORD_CODE("dcc"),
     @GoDataType("int")
     SERIAL("s"),
     @GoDataType("bool")
@@ -315,7 +316,8 @@ public class Constants {
     SESSION_PERMALINK("sP"),
     USER_PERMALINK("up"),
     @GoDataType("[]int")
-    WHITE_CARDS("wc");
+    WHITE_CARDS("wc"),
+    UUID("uuid");
 
     private final String field;
 

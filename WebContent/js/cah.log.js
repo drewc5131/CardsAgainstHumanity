@@ -98,9 +98,9 @@ cah.log.status_with_game = function(game_or_id, text, opt_class, opt_allow_html,
 
   var node;
   if (opt_title) {
-    node = $("<span title ='" + opt_title + "'></span><br/>");
+      node = $("<span class='chatmsg' title ='" + opt_title + "'></span><br/>");
   } else {
-    node = $("<span></span><br/>");
+    node = $("<span class='chatmsg'></span><br/>");
   }
   var full_msg = "[" + new Date().toLocaleTimeString() + "] " + text + "\n";
   if (opt_allow_html) {
