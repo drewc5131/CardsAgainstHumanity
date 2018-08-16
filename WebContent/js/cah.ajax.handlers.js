@@ -340,6 +340,10 @@ cah.ajax.SuccessHandlers[cah.$.AjaxOperation.WHOIS] = function (data, req) {
     if (data[cah.$.AjaxResponse.CLIENT_NAME]) {
         cah.log.status_with_game(chatWindowId, "* Client: " + data[cah.$.AjaxResponse.CLIENT_NAME]);
     }
+    
+    if (data[cah.$.AjaxResponse.DISCORD_ID]){cah.log.status_with_game(chatWindowId, "* Discord ID: " + data[cah.$.AjaxResponse.DISCORD_ID]);}
+    if (data[cah.$.AjaxResponse.UUID]){cah.log.status_with_game(chatWindowId, "* User Identifier: " + data[cah.$.AjaxResponse.UUID]);}
+    
     var gameId = data[cah.$.AjaxResponse.GAME_ID];
     if (undefined !== gameId) {
         var gameInfo = data[cah.$.AjaxResponse.GAME_INFO];
